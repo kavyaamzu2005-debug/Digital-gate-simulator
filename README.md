@@ -1,7 +1,7 @@
 ﻿# Digital-gate-simulator
-# Digital Logic Gate Simulator
 
-An interactive web-based **Digital Logic Gate Simulator** built using **HTML, CSS, and JavaScript**.
+
+An interactive web-based **Digital Gate Simulator** built using **HTML, CSS, and JavaScript**.
 
 This project allows users to simulate different digital logic gates and arithmetic circuits by changing the input values and observing the output instantly.
 
