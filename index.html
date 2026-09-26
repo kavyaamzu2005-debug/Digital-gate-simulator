@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Logic Gate Simulator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f1422;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 0;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #9fb4df;
+            font-size: 18px;
+        }
+
+        .card {
+            background: #171e30;
+            border: 1px solid #2c3854;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #a9bee8;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        select {
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid #34415f;
+            background: #0f1422;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+
+        .description {
+            margin: 20px 0;
+            color: #a9bee8;
+            font-size: 17px;
+        }
+
+        .inputs {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .input-box {
+            flex: 1;
+            background: #0f1422;
+            border: 1px solid #34415f;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .input-box h3 {
+            color: #a9bee8;
+            margin-bottom: 12px;
+        }
+
+        .value {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .toggle-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #304a7a;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .toggle-btn:hover {
+            background: #42649e;
+        }
+
+        .output-box {
+            margin-top: 25px;
+            background: #0f1422;
+            border: 1px solid #34415f;
+            border-radius: 14px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .output-title {
+            font-size: 22px;
+        }
+
+        .output-value {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 30px;
+            background: #164c48;
+            color: #20d4ad;
+        }
+
+        .truth-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .truth-table th,
+        .truth-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #303b55;
+        }
+
+        .truth-table th {
+            color: #a9bee8;
+            font-size: 17px;
+        }
+
+        .truth-table td {
+            font-size: 17px;
+        }
+
+        .truth-table tr.active {
+            background: #26385d;
+        }
+
+        .truth-table tr:hover {
+            background: #202d49;
+        }
+
+        .gate-info {
+            margin-top: 25px;
+            padding: 20px;
+            background: #101827;
+            border-radius: 12px;
+        }
+
+        .gate-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            color: #20d4ad;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            margin-bottom: 5px;
+        }
+
+        @media(max-width: 700px) {
+
+            .inputs {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .output-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    
+
+    <div class="header">
+
+        <h1>⚡ Digital Logic Gate Simulator</h1>
+
+        <p>
+            Simulate digital logic gates and arithmetic circuits
+            with live inputs, outputs and truth tables.
+        </p>
+
+    </div>
+
+
+    
+
+    <div class="card">
+
+        <label for="gate">
+            Select Gate / Circuit
+        </label>
+
+
+        <select id="gate" onchange="changeCircuit()">
+
+            <optgroup label="Logic Gates">
+
+                <option value="AND">AND</option>
+
+                <option value="OR">OR</option>
+
+                <option value="NOT">NOT</option>
+
+                <option value="NAND">NAND</option>
+
+                <option value="NOR">NOR</option>
+
+                <option value="XOR">XOR</option>
+
+                <option value="XNOR">XNOR</option>
+
+            </optgroup>
+
+
+            <optgroup label="Arithmetic Circuits">
+
+                <option value="HALF_ADDER">
+                    HALF ADDER
+                </option>
+
+                <option value="FULL_ADDER">
+                    FULL ADDER
+                </option>
+
+            </optgroup>
+
+        </select>
+
+
+        <div class="description" id="description">
+            Output is 1 only if both A and B are 1.
+        </div>
+
+
+        
+
+        <div class="inputs">
+
+         
+            <div class="input-box">
+
+                <h3>A</h3>
+
+                <div class="value" id="inputA">
+                    0
+                </div>
+
+                <button class="toggle-btn"
+                        onclick="toggleA()">
+
+                    Change A
+
+                </button>
+
+            </div>
+
+
+
+            <div class="input-box"
+                 id="inputBBox">
+
+                <h3>B</h3>
+
+                <div class="value" id="inputB">
+                    0
+                </div>
+
+                <button class="toggle-btn"
+                        onclick="toggleB()">
+
+                    Change B
+
+                </button>
+
+            </div>
+
+
+           
+
+            <div class="input-box"
+                 id="carryBox"
+                 style="display:none;">
+
+                <h3>CARRY IN</h3>
+
+                <div class="value"
+                     id="carryIn">
+
+                    0
+
+                </div>
+
+                <button class="toggle-btn"
+                        onclick="toggleCarryIn()">
+
+                    Change Cin
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+       
+
+        <div class="output-box">
+
+            <div class="output-title">
+                Output:
+            </div>
+
+
+            
+
+            <div class="output-value"
+                 id="normalOutput">
+
+                OUT: 0
+
+            </div>
+
+
+            
+
+            <div class="output-value"
+                 id="sumOutput"
+                 style="display:none;">
+
+                SUM: 0
+
+            </div>
+
+
+            <div class="output-value"
+                 id="carryOutput"
+                 style="display:none;">
+
+                CARRY: 0
+
+            </div>
+
+        </div>
+
+
+        
+
+        <div class="gate-info">
+
+            <h3>Logic Expression</h3>
+
+            <div class="formula"
+                 id="formula">
+
+                A · B
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h2 class="section-title">
+            Truth Table
+        </h2>
+
+        <p class="description">
+            Current input combination is highlighted.
+        </p>
+
+
+        <table class="truth-table">
+
+            <thead>
+
+                <tr>
+
+                    <th id="headA">
+                        A
+                    </th>
+
+                    <th id="headB">
+                        B
+                    </th>
+
+                    <th id="headCin"
+                        style="display:none;">
+
+                        Cin
+
+                    </th>
+
+                    <th id="headSum"
+                        style="display:none;">
+
+                        SUM
+
+                    </th>
+
+                    <th id="headCarry"
+                        style="display:none;">
+
+                        CARRY
+
+                    </th>
+
+                    <th id="headOut">
+
+                        OUT
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="truthTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+
+
+let A = 0;
+
+let B = 0;
+
+let carryIn = 0;
+
+
+
+
+const descriptions = {
+
+    AND:
+        "Output is 1 only if both A and B are 1.",
+
+    OR:
+        "Output is 1 if at least one input is 1.",
+
+    NOT:
+        "Output is the opposite of input A.",
+
+    NAND:
+        "Output is the opposite of AND.",
+
+    NOR:
+        "Output is 1 only if both inputs are 0.",
+
+    XOR:
+        "Output is 1 when A and B are different.",
+
+    XNOR:
+        "Output is 1 when A and B are the same.",
+
+    HALF_ADDER:
+        "Composed from XOR + AND gates. Adds two bits.",
+
+    FULL_ADDER:
+        "Adds three binary inputs: A, B and Carry In."
+
+};
+
+
+
+
+const formulas = {
+
+    AND:
+        "A · B",
+
+    OR:
+        "A + B",
+
+    NOT:
+        "A" ,
+
+    NAND:
+        "(A · B)",
+
+    NOR:
+        "(A + B)",
+
+    XOR:
+        "A ⊕ B",
+
+    XNOR:
+        "(A ⊕ B)",
+    HALF_ADDER:
+        "SUM = A ⊕ B , CARRY = A · B",
+
+    FULL_ADDER:
+        "SUM = A ⊕ B ⊕ Cin , CARRY = AB + Cin(A ⊕ B)"
+
+};
+
+
+
+
+
+function toggleA() {
+
+    A = A === 0 ? 1 : 0;
+
+    updateSimulator();
+
+}
+
+
+
+
+function toggleB() {
+
+    B = B === 0 ? 1 : 0;
+
+    updateSimulator();
+
+}
+
+
+
+
+function toggleCarryIn() {
+
+    carryIn =
+        carryIn === 0 ? 1 : 0;
+
+    updateSimulator();
+
+}
+
+
+
+
+
+function calculateGate(a, b, gate) {
+
+    switch(gate) {
+
+        case "AND":
+
+            return a & b;
+
+
+        case "OR":
+
+            return a | b;
+
+
+        case "NOT":
+
+            return a === 0 ? 1 : 0;
+
+
+        case "NAND":
+
+            return (a & b) === 0 ? 1 : 0;
+
+
+        case "NOR":
+
+            return (a | b) === 0 ? 1 : 0;
+
+
+        case "XOR":
+
+            return a ^ b;
+
+
+        case "XNOR":
+
+            return (a ^ b) === 0 ? 1 : 0;
+
+
+        default:
+
+            return 0;
+
+    }
+
+}
+
+
+
+
+function calculateHalfAdder(a, b) {
+
+    const sum = a ^ b;
+
+    const carry = a & b;
+
+    return {
+
+        sum: sum,
+
+        carry: carry
+
+    };
+
+}
+
+
+
+
+function calculateFullAdder(a, b, cin) {
+
+    const sum =
+        a ^ b ^ cin;
+
+
+    const carry =
+        (a & b) | (b & cin) | (a & cin);
+
+
+    return {
+
+        sum: sum,
+
+        carry: carry
+
+    };
+
+}
+
+
+
+
+
+function changeCircuit() {
+
+    const gate =
+        document.getElementById("gate").value;
+
+
+    document.getElementById("description")
+        .innerText =
+        descriptions[gate];
+
+
+    document.getElementById("formula")
+        .innerText =
+        formulas[gate];
+
+
+    const isNot =
+        gate === "NOT";
+
+
+    const isHalfAdder =
+        gate === "HALF_ADDER";
+
+
+    const isFullAdder =
+        gate === "FULL_ADDER";
+
+
+    
+
+    if (isNot) {
+
+        document.getElementById("inputBBox")
+            .style.display = "none";
+
+    } else {
+
+        document.getElementById("inputBBox")
+            .style.display = "block";
+
+    }
+
+
+    
+
+    if (isFullAdder) {
+
+        document.getElementById("carryBox")
+            .style.display = "block";
+
+    } else {
+
+        document.getElementById("carryBox")
+            .style.display = "none";
+
+    }
+
+
+  
+
+    document.getElementById("normalOutput")
+        .style.display =
+        (isHalfAdder || isFullAdder)
+            ? "none"
+            : "block";
+
+
+
+
+    document.getElementById("sumOutput")
+        .style.display =
+        (isHalfAdder || isFullAdder)
+            ? "block"
+            : "none";
+
+
+
+    document.getElementById("carryOutput")
+        .style.display =
+        (isHalfAdder || isFullAdder)
+            ? "block"
+            : "none";
+
+
+    updateTableHeaders();
+
+    updateSimulator();
+
+}
+
+
+
+
+
+function updateTableHeaders() {
+
+    const gate =
+        document.getElementById("gate").value;
+
+
+    const isNot =
+        gate === "NOT";
+
+
+    const isAdder =
+        gate === "HALF_ADDER" ||
+        gate === "FULL_ADDER";
+
+
+    document.getElementById("headB")
+        .style.display =
+        isNot ? "none" : "table-cell";
+
+
+    document.getElementById("headCin")
+        .style.display =
+        gate === "FULL_ADDER"
+            ? "table-cell"
+            : "none";
+
+
+    document.getElementById("headSum")
+        .style.display =
+        isAdder
+            ? "table-cell"
+            : "none";
+
+
+    document.getElementById("headCarry")
+        .style.display =
+        isAdder
+            ? "table-cell"
+            : "none";
+
+
+    document.getElementById("headOut")
+        .style.display =
+        isAdder
+            ? "none"
+            : "table-cell";
+
+}
+
+
+
+
+function updateSimulator() {
+
+    const gate =
+        document.getElementById("gate").value;
+
+
+    /* Show current inputs */
+
+    document.getElementById("inputA")
+        .innerText = A;
+
+
+    document.getElementById("inputB")
+        .innerText = B;
+
+
+    document.getElementById("carryIn")
+        .innerText = carryIn;
+
+
+
+   
+
+    if (
+        gate !== "HALF_ADDER" &&
+        gate !== "FULL_ADDER"
+    ) {
+
+        const output =
+            calculateGate(A, B, gate);
+
+
+        document.getElementById("normalOutput")
+            .innerText =
+            "OUT: " + output;
+
+    }
+
+
+
+
+    if (gate === "HALF_ADDER") {
+
+        const result =
+            calculateHalfAdder(A, B);
+
+
+        document.getElementById("sumOutput")
+            .innerText =
+            "SUM: " + result.sum;
+
+
+        document.getElementById("carryOutput")
+            .innerText =
+            "CARRY: " + result.carry;
+
+    }
+
+
+
+    if (gate === "FULL_ADDER") {
+
+        const result =
+            calculateFullAdder(
+                A,
+                B,
+                carryIn
+            );
+
+
+        document.getElementById("sumOutput")
+            .innerText =
+            "SUM: " + result.sum;
+
+
+        document.getElementById("carryOutput")
+            .innerText =
+            "CARRY: " + result.carry;
+
+    }
+
+
+    generateTruthTable();
+
+}
+
+
+
+
+
+function generateTruthTable() {
+
+    const gate =
+        document.getElementById("gate").value;
+
+
+    const table =
+        document.getElementById("truthTable");
+
+
+    table.innerHTML = "";
+
+
+
+ 
+
+    if (gate === "NOT") {
+
+        for (let a = 0; a <= 1; a++) {
+
+            const output =
+                calculateGate(a, 0, gate);
+
+
+            const row =
+                document.createElement("tr");
+
+
+            if (a === A) {
+
+                row.classList.add("active");
+
+            }
+
+
+            row.innerHTML = `
+
+                <td>${a}</td>
+
+                <td style="display:none">
+                    -
+                </td>
+
+                <td>${output}</td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        }
+
+        return;
+
+    }
+
+
+
+
+    if (gate === "HALF_ADDER") {
+
+        for (let a = 0; a <= 1; a++) {
+
+            for (let b = 0; b <= 1; b++) {
+
+                const result =
+                    calculateHalfAdder(a, b);
+
+
+                const row =
+                    document.createElement("tr");
+
+
+                if (
+                    a === A &&
+                    b === B
+                ) {
+
+                    row.classList.add("active");
+
+                }
+
+
+                row.innerHTML = `
+
+                    <td>${a}</td>
+
+                    <td>${b}</td>
+
+                    <td>${result.sum}</td>
+
+                    <td>${result.carry}</td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            }
+
+        }
+
+        return;
+
+    }
+
+
+
+   
+
+    if (gate === "FULL_ADDER") {
+
+        for (let a = 0; a <= 1; a++) {
+
+            for (let b = 0; b <= 1; b++) {
+
+                for (
+                    let cin = 0;
+                    cin <= 1;
+                    cin++
+                ) {
+
+                    const result =
+                        calculateFullAdder(
+                            a,
+                            b,
+                            cin
+                        );
+
+
+                    const row =
+                        document.createElement("tr");
+
+
+                    if (
+                        a === A &&
+                        b === B &&
+                        cin === carryIn
+                    ) {
+
+                        row.classList.add("active");
+
+                    }
+
+
+                    row.innerHTML = `
+
+                        <td>${a}</td>
+
+                        <td>${b}</td>
+
+                        <td>${cin}</td>
+
+                        <td>${result.sum}</td>
+
+                        <td>${result.carry}</td>
+
+                    `;
+
+
+                    table.appendChild(row);
+
+                }
+
+            }
+
+        }
+
+        return;
+
+    }
+
+
+
+
+    for (let a = 0; a <= 1; a++) {
+
+        for (let b = 0; b <= 1; b++) {
+
+            const output =
+                calculateGate(a, b, gate);
+
+
+            const row =
+                document.createElement("tr");
+
+
+            if (
+                a === A &&
+                b === B
+            ) {
+
+                row.classList.add("active");
+
+            }
+
+
+            row.innerHTML = `
+
+                <td>${a}</td>
+
+                <td>${b}</td>
+
+                <td>${output}</td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        }
+
+    }
+
+}
+
+
+
+
+
+changeCircuit();
+
+</script>
+
+</body>
+
+</html>
