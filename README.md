@@ -1,410 +1,237 @@
-﻿# Digital Logic Gate Simulator
+## Digital gate Simulator
 
-Digital Logic Gate Simulator is a web-based interactive application that
-allows users to simulate basic digital logic gates and arithmetic
-circuits. Users can change binary inputs and observe the corresponding
-outputs and truth tables dynamically.
+A web-based **Digital gate Simulator** that allows users to interactively simulate logic gates, combinational circuits, and sequential circuits. The simulator provides live input/output updates, circuit visualization, logic expressions, truth tables, characteristic tables, and sequential-state simulation.
 
-## Features
+##  Features
 
--   AND Gate
--   OR Gate
--   NOT Gate
--   NAND Gate
--   NOR Gate
--   XOR Gate
--   XNOR Gate
--   Half Adder
--   Full Adder
--   Interactive binary inputs
--   Dynamic output calculation
--   Dynamic truth tables
--   Current input combination highlighting
--   Boolean logic expressions
--   Responsive user interface
+###  Logic Gates
 
-## Technology Stack
+Supports the following fundamental logic gates:
 
-### Frontend
+* AND
+* OR
+* NOT
+* NAND
+* NOR
+* XOR
+* XNOR
 
--   HTML5
--   CSS3
--   JavaScript
+Users can change the input values and instantly observe the corresponding output.
 
-### Development Tools
+###  Combinational Circuits
 
--   Visual Studio Code
--   Git
--   GitHub
+The simulator supports:
 
-## Application Flow
+* Half Adder
+* Full Adder
+* Half Subtractor
+* Full Subtractor
+* 2:1 Multiplexer
+* 4:1 Multiplexer
+* 1:2 Demultiplexer
+* 1:4 Demultiplexer
+* 2:4 Decoder
+* 4:2 Encoder
 
-``` text
-User
-  ↓
-HTML / CSS / JavaScript
-  ↓
-Select Logic Gate / Circuit
-  ↓
-Change Binary Inputs
-  ↓
-JavaScript Logic Calculation
-  ↓
-Output
-  ↓
-Truth Table
+Each circuit displays its inputs, outputs, logic expression, and corresponding truth table.
+
+###  Sequential Circuits
+
+The project also simulates basic sequential circuits:
+
+* SR Latch
+* D Flip-Flop
+* JK Flip-Flop
+* T Flip-Flop
+
+For clock-controlled flip-flops, users can apply clock pulses and observe the change in the stored state `Q`.
+
+###  Interactive Truth & Characteristic Tables
+
+The simulator automatically generates:
+
+* Truth tables for logic gates and combinational circuits
+* Characteristic tables for sequential circuits
+* Current-input highlighting
+* Next-state (`Q⁺`) information for sequential circuits
+
+The tables are generated dynamically based on the selected circuit and number of inputs.
+
+###  Live Circuit Visualization
+
+A dynamic SVG-based circuit view displays:
+
+* Input wires
+* Output wires
+* Circuit name
+* Current input values
+* Current output values
+* Sequential circuit state
+* Clock connection for flip-flops
+
+Wire states are visually represented according to their binary value.
+
+###  Logic Expressions
+
+Each supported circuit displays its corresponding Boolean expression.
+
+Examples:
+
+```text
+AND       → Y = A · B
+OR        → Y = A + B
+XOR       → Y = A ⊕ B
+Half Adder → SUM = A ⊕ B
+            CARRY = A · B
 ```
 
-## Logic Gates
+###  Sequential State & Clock History
 
-### AND Gate
+For clock-controlled sequential circuits, the simulator maintains the current state and records the output state after each clock edge.
 
-The AND gate produces an output of `1` only when both inputs are `1`.
+Example:
 
-``` text
-Y = A AND B
+```text
+Q after each clock edge:
+0 → 1 → 1 → 0 → 1
 ```
 
-Truth table:
+##  Technologies Used
 
-``` text
-A  B  Y
-0  0  0
-0  1  0
-1  0  0
-1  1  1
+* **HTML5** – Web page structure
+* **CSS3** – Styling and responsive layout
+* **JavaScript** – Circuit logic, simulation, dynamic tables, and visualization
+* **SVG** – Live circuit diagram generation
+
+##  Project Structure
+
+```text
+Digital-Logic-Simulator/
+│
+└── index.html
 ```
 
-### OR Gate
+The project is implemented as a lightweight standalone web application containing the interface, styling, circuit logic, simulation functions, and SVG visualization.
 
-The OR gate produces an output of `1` when at least one input is `1`.
+##  How to Run
 
-``` text
-Y = A OR B
+### 1. Clone the repository
+
+```bash
+git clone <your-github-repository-url>
 ```
 
-Truth table:
+### 2. Open the project
 
-``` text
-A  B  Y
-0  0  0
-0  1  1
-1  0  1
-1  1  1
+Navigate to the project folder.
+
+### 3. Run the application
+
+Open:
+
+```text
+index.html
 ```
 
-### NOT Gate
+in any modern web browser.
 
-The NOT gate produces the opposite value of the input.
+No server or external database is required.
 
-``` text
-Y = NOT A
-```
+##  How to Use
 
-Truth table:
+1. Open the simulator.
+2. Select a logic gate or circuit from the dropdown.
+3. Change the input values using the input buttons.
+4. Observe the live output.
+5. View the corresponding Boolean expression.
+6. Examine the generated circuit diagram.
+7. Check the truth table or characteristic table.
+8. For flip-flops, apply clock pulses and observe the state transitions.
 
-``` text
-A  Y
-0  1
-1  0
-```
+##  Concepts Demonstrated
 
-### NAND Gate
+This project demonstrates practical implementation of:
 
-The NAND gate produces the opposite output of an AND gate.
+* Boolean Algebra
+* Logic Gates
+* Truth Tables
+* Combinational Logic
+* Sequential Logic
+* Adders and Subtractors
+* Multiplexers
+* Demultiplexers
+* Encoders and Decoders
+* Latches
+* Flip-Flops
+* Clock-based State Transitions
+* Next-State Logic
+* SVG-based Circuit Visualization
+* Dynamic DOM Manipulation
 
-``` text
-Y = NOT(A AND B)
-```
-
-Truth table:
-
-``` text
-A  B  Y
-0  0  1
-0  1  1
-1  0  1
-1  1  0
-```
-
-### NOR Gate
-
-The NOR gate produces the opposite output of an OR gate.
-
-``` text
-Y = NOT(A OR B)
-```
-
-Truth table:
-
-``` text
-A  B  Y
-0  0  1
-0  1  0
-1  0  0
-1  1  0
-```
-
-### XOR Gate
-
-The XOR gate produces an output of `1` when the two inputs are
-different.
-
-``` text
-Y = A XOR B
-```
-
-Truth table:
-
-``` text
-A  B  Y
-0  0  0
-0  1  1
-1  0  1
-1  1  0
-```
-
-### XNOR Gate
-
-The XNOR gate produces an output of `1` when both inputs are the same.
-
-``` text
-Y = A XNOR B
-```
-
-Truth table:
-
-``` text
-A  B  Y
-0  0  1
-0  1  0
-1  0  0
-1  1  1
-```
-
-## Arithmetic Circuits
+##  Circuit Examples
 
 ### Half Adder
 
-A Half Adder is a combinational circuit that adds two binary inputs.
-
-Inputs:
-
-``` text
-A
-B
-```
-
-Outputs:
-
-``` text
-SUM
-CARRY
-```
-
-Logic equations:
-
-``` text
-SUM = A XOR B
-CARRY = A AND B
-```
-
-Truth table:
-
-``` text
-A  B  SUM  CARRY
-0  0   0     0
-0  1   1     0
-1  0   1     0
-1  1   0     1
+```text
+SUM   = A ⊕ B
+CARRY = A · B
 ```
 
 ### Full Adder
 
-A Full Adder adds three binary inputs.
-
-Inputs:
-
-``` text
-A
-B
-Cin
+```text
+SUM   = A ⊕ B ⊕ Cin
+CARRY = AB + Cin(A ⊕ B)
 ```
 
-Outputs:
+### 2:1 Multiplexer
 
-``` text
-SUM
-CARRY
+```text
+Y = S'·D0 + S·D1
 ```
 
-Logic equations:
+### D Flip-Flop
 
-``` text
-SUM = A XOR B XOR Cin
-
-CARRY = (A AND B) OR (Cin AND (A XOR B))
+```text
+Q⁺ = D
 ```
 
-Truth table:
+### JK Flip-Flop
 
-``` text
-A  B  Cin  SUM  CARRY
-0  0   0    0     0
-0  0   1    1     0
-0  1   0    1     0
-0  1   1    0     1
-1  0   0    1     0
-1  0   1    0     1
-1  1   0    0     1
-1  1   1    1     1
+```text
+J = 0, K = 0 → Hold
+J = 1, K = 0 → Set
+J = 0, K = 1 → Reset
+J = 1, K = 1 → Toggle
 ```
 
-## Truth Tables
+## Input Validation
 
-The application dynamically generates truth tables according to the
-selected gate or circuit.
+The simulator also handles invalid sequential-circuit conditions. For example, the SR latch identifies the `S = R = 1` condition as an invalid input combination and indicates that the next state is undefined.
 
-For two-input logic gates:
+##  Purpose of the Project
 
-``` text
-2² = 4 input combinations
-```
+The main purpose of this project is to provide an interactive and easy-to-understand environment for learning and experimenting with **digital logic circuits**.
 
-For the NOT gate:
-
-``` text
-2¹ = 2 input combinations
-```
-
-For the Half Adder:
-
-``` text
-2² = 4 input combinations
-```
-
-For the Full Adder:
-
-``` text
-2³ = 8 input combinations
-```
-
-The currently selected input combination is highlighted in the truth
-table.
-
-## JavaScript Logic
-
-The application uses JavaScript to perform the logic calculations and
-update the interface dynamically.
-
-The selected gate or circuit determines:
-
--   Number of inputs
--   Input values
--   Output calculation
--   Logic expression
--   Truth table
--   Current row highlighting
-
-No backend or database is required for this project.
-
-## Project Structure
-
-``` text
-Digitalgate
-│
-├── index.html
-```
-
-### index.html
-
-Contains:
-
--   HTML structure
--   CSS styling
--   JavaScript functionality
--   Logic gate calculations
--   Half Adder calculation
--   Full Adder calculation
--   Dynamic truth table generation
--   Input and output controls
-
-
-## Requirements
-
-Before running the project, install/configure:
-
--   Visual Studio Code
--   A modern web browser
--   Git (optional, for version control)
--   Live Server extension (optional)
-
-## Running the Project
-
-### Method 1 -- Direct Browser
-
-1.  Download or clone the repository.
-2.  Open the project folder.
-3.  Open `index.html` in a web browser.
-4.  Select a gate or circuit.
-5.  Change the input values.
-6.  Observe the output and truth table.
-
-### Method 2 -- VS Code Live Server
-
-1.  Open the project in Visual Studio Code.
-2.  Open `index.html`.
-3.  Install the Live Server extension if required.
-4.  Right-click `index.html`.
-5.  Select `Open with Live Server`.
-6.  The application opens in the browser.
-
-## GitHub
-
-The project can be maintained using Git and GitHub for version control.
-
-
-## Deployment
-
-Since this project uses only HTML, CSS, and JavaScript, it can be
-deployed as a static website.
-
-Possible deployment options include:
-
--   GitHub Pages
--   Other static website hosting platforms
+Instead of manually calculating every output using truth tables, users can modify inputs and immediately observe the resulting circuit behavior.
 
 ## Future Enhancements
 
--   Additional arithmetic circuits
--   Multiplexer and Demultiplexer
--   Encoder and Decoder
--   Flip-Flops
--   Sequential circuits
--   Multi-gate circuit simulation
--   Circuit diagram visualization
--   Drag-and-drop circuit builder
--   Improved mobile responsiveness
--   Light and dark theme options
+Possible future improvements include:
 
-## Learning Outcomes
+* Drag-and-drop circuit design
+* User-defined circuit construction
+* More sequential circuits
+* Counters and registers
+* Timing diagrams
+* Circuit simulation animation
+* Boolean expression simplification
+* Circuit export as an image
+* Save/load custom circuits
+* Mobile-friendly circuit editor
 
-This project provides practical understanding of:
 
--   Digital Logic Gates
--   Boolean Logic
--   Truth Tables
--   Binary Operations
--   Half Adder
--   Full Adder
--   Combinational Circuits
--   HTML
--   CSS
--   JavaScript
--   DOM Manipulation
--   Event Handling
--   Dynamic UI Updates
--   Git and GitHub
+
 
 
 
